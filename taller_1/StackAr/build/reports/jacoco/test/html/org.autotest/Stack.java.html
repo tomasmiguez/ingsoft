@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Stack.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">StackAr</a> &gt; <a href="index.source.html" class="el_package">org.autotest</a> &gt; <span class="el_source">Stack.java</span></div><h1>Stack.java</h1><pre class="source lang-java linenums">package org.autotest;
+
+/**
+ * Clase abstracta que representa una pila.
+ */
+<span class="fc" id="L6">public abstract class Stack {</span>
+    /**
+     * Devuelve la cantidad de elementos en la pila.
+     */
+    public abstract int size();
+
+    /**
+     * Devuelve true si la pila está vacía, false en caso contrario.
+     */
+    public abstract boolean isEmpty();
+
+    /**
+     * Devuelve true si la pila está llena, false en caso contrario.
+     */
+    public abstract boolean isFull();
+
+    /**
+     * Agrega un elemento a la pila.
+     */
+    public abstract void push(Object o);
+
+    /**
+     * Elimina y devuelve el elemento en el tope de la pila.
+     */
+    public abstract Object pop() throws IllegalStateException;
+
+    /**
+     * Devuelve el elemento en el tope de la pila.
+     */
+    public abstract Object top() throws IllegalStateException;
+
+    /**
+     * Devuelve un entero que representa el hash code de la pila.
+     */
+    public abstract int hashCode();
+
+    /**
+     * Devuelve true si la pila es igual a otro objeto, false en caso contrario.
+     */
+    public abstract boolean equals(Object obj);
+
+    /**
+     * Devuelve una representación en String de la pila.
+     */
+    public abstract String toString();
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

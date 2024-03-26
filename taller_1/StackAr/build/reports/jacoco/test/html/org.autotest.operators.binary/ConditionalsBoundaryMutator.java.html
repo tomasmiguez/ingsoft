@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConditionalsBoundaryMutator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">StackAr</a> &gt; <a href="index.source.html" class="el_package">org.autotest.operators.binary</a> &gt; <span class="el_source">ConditionalsBoundaryMutator.java</span></div><h1>ConditionalsBoundaryMutator.java</h1><pre class="source lang-java linenums">package org.autotest.operators.binary;
+
+import org.autotest.helpers.BinaryOperatorKindToString;
+import org.autotest.operators.MutationOperator;
+import spoon.reflect.code.BinaryOperatorKind;
+import spoon.reflect.code.CtBinaryOperator;
+import spoon.reflect.declaration.CtElement;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Operador de mutación basado en https://pitest.org/quickstart/mutators/#CONDITIONALS_BOUNDARY
+ *
+ * Este operador de mutación reemplaza los operadores relacionales &lt;, &lt;=, &gt;, &gt;= por su contraparte de límite.
+ * Por ejemplo, el operador &lt;= se reemplaza por el operador &lt;.
+ */
+<span class="nc" id="L18">public class ConditionalsBoundaryMutator extends MutationOperator {</span>
+    @Override
+    public boolean isToBeProcessed(CtElement candidate) {
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (!(candidate instanceof CtBinaryOperator)) {</span>
+<span class="nc" id="L22">            return false;</span>
+        }
+
+<span class="nc" id="L25">        CtBinaryOperator op = (CtBinaryOperator)candidate;</span>
+<span class="nc" id="L26">        List&lt;BinaryOperatorKind&gt; targetOperations = Arrays.asList(</span>
+            BinaryOperatorKind.GE, // &gt;=
+            BinaryOperatorKind.GT, // &gt;
+            BinaryOperatorKind.LE, // &lt;=
+            BinaryOperatorKind.LT // &lt;
+        );
+<span class="nc" id="L32">        return targetOperations.contains(op.getKind());</span>
+    }
+
+    @Override
+    public void process(CtElement candidate) {
+<span class="nc" id="L37">        CtBinaryOperator op = (CtBinaryOperator)candidate;</span>
+<span class="nc" id="L38">        op.setKind(getReplacement(op.getKind()));</span>
+<span class="nc" id="L39">    }</span>
+
+    public BinaryOperatorKind getReplacement(BinaryOperatorKind kind) {
+<span class="nc bnc" id="L42" title="All 5 branches missed.">        switch (kind) {</span>
+            case GE:
+<span class="nc" id="L44">                return BinaryOperatorKind.GT;</span>
+            case GT:
+<span class="nc" id="L46">                return BinaryOperatorKind.GE;</span>
+            case LE:
+<span class="nc" id="L48">                return BinaryOperatorKind.LT;</span>
+            case LT:
+<span class="nc" id="L50">                return BinaryOperatorKind.LE;</span>
+        }
+<span class="nc" id="L52">        return null;</span>
+    }
+
+    @Override
+    public String describeMutation(CtElement candidate) {
+<span class="nc" id="L57">        CtBinaryOperator op = (CtBinaryOperator)candidate;</span>
+<span class="nc" id="L58">        return this.getClass().getSimpleName() + &quot;: Se reemplazó &quot; +</span>
+<span class="nc" id="L59">                BinaryOperatorKindToString.get(op.getKind()) + &quot; por &quot; + BinaryOperatorKindToString.get(getReplacement(op.getKind())) +</span>
+<span class="nc" id="L60">                &quot; en la línea &quot; + op.getPosition().getLine() + &quot;.&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

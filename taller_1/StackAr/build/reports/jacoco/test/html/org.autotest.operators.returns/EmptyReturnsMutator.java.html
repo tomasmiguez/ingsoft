@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmptyReturnsMutator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">StackAr</a> &gt; <a href="index.source.html" class="el_package">org.autotest.operators.returns</a> &gt; <span class="el_source">EmptyReturnsMutator.java</span></div><h1>EmptyReturnsMutator.java</h1><pre class="source lang-java linenums">package org.autotest.operators.returns;
+
+import org.autotest.operators.MutationOperator;
+import spoon.reflect.code.CtExpression;
+import spoon.reflect.code.CtReturn;
+import spoon.reflect.declaration.CtElement;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Operador de mutación basado en https://pitest.org/quickstart/mutators/#EMPTY_RETURNS
+ *
+ * Este operador reemplaza los valores de retorno de las funciones que devuelven String o int por valores &quot;vacíos&quot;.
+ * Por ejemplo, si la función tiene que devolver un String se reemplaza por &quot;&quot;.
+ * Si tiene que devolver un int se reemplaza por 0.
+ */
+<span class="nc" id="L18">public class EmptyReturnsMutator extends MutationOperator {</span>
+    @Override
+    public boolean isToBeProcessed(CtElement candidate) {
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (!(candidate instanceof CtReturn)) {</span>
+<span class="nc" id="L22">            return false;</span>
+        }
+
+<span class="nc" id="L25">        CtReturn op = (CtReturn)candidate;</span>
+<span class="nc" id="L26">        String type = getReturnedExpressionType(op);</span>
+<span class="nc" id="L27">        List&lt;String&gt; targetTypes = Arrays.asList(</span>
+            &quot;java.lang.String&quot;,
+            &quot;int&quot;
+        );
+<span class="nc" id="L31">        return targetTypes.contains(type);</span>
+    }
+
+    @Override
+    public void process(CtElement candidate) {
+<span class="nc" id="L36">        CtReturn op = (CtReturn)candidate;</span>
+<span class="nc" id="L37">        op.setReturnedExpression(getEmptyValueForReturnExpression(op));</span>
+<span class="nc" id="L38">    }</span>
+
+    private static String getReturnedExpressionType(CtReturn op) {
+<span class="nc" id="L41">        return op.getReturnedExpression().getType().toString();</span>
+    }
+
+    private CtExpression getEmptyValueForReturnExpression(CtReturn op) {
+<span class="nc" id="L45">        String returnType = getReturnedExpressionType(op);</span>
+<span class="nc bnc" id="L46" title="All 3 branches missed.">        switch (returnType) {</span>
+            case &quot;java.lang.String&quot;:
+<span class="nc" id="L48">                return op.getFactory().Code().createLiteral(&quot;&quot;);</span>
+            case &quot;int&quot;:
+<span class="nc" id="L50">                return op.getFactory().Code().createLiteral(0);</span>
+        }
+<span class="nc" id="L52">        return null;</span>
+    }
+
+    @Override
+    public String describeMutation(CtElement candidate) {
+<span class="nc" id="L57">        CtReturn op = (CtReturn)candidate;</span>
+<span class="nc" id="L58">        return this.getClass().getSimpleName() + &quot;: Se reemplazó &quot; +</span>
+<span class="nc" id="L59">                op.getReturnedExpression().toString() + &quot; por &quot; + getEmptyValueForReturnExpression(op).toString() +</span>
+<span class="nc" id="L60">                &quot; en la línea &quot; + op.getPosition().getLine() + &quot;.&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

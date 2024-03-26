@@ -9,24 +9,43 @@ import java.util.List;
 
 /**
  * Operador de mutación basado en https://pitest.org/quickstart/mutators/#EXPERIMENTAL_CRCR
- *
+ * <p>
  * Este operador reemplaza los valores de las constantes por uno.
  */
 public class OneConstantMutator extends MutationOperator {
     @Override
     public boolean isToBeProcessed(CtElement candidate) {
-        // COMPLETAR
-        return false;
+        if (!(candidate instanceof CtLiteral)) {
+            return false;
+        }
+
+        CtLiteral op = (CtLiteral) candidate;
+        String type = getLiteralType(op);
+        List<String> targetTypes = Arrays.asList(
+                "int"
+        );
+        if (!targetTypes.contains(type)) {
+            return false;
+        }
+
+        return !"1".equals(op.getValue().toString());
     }
 
     @Override
     public void process(CtElement candidate) {
-        // COMPLETAR
+        CtLiteral op = (CtLiteral) candidate;
+        op.setValue(op.getFactory().Code().createLiteral(1));
+    }
+
+    private static String getLiteralType(CtLiteral op) {
+        return op.getType().toString();
     }
 
     @Override
     public String describeMutation(CtElement candidate) {
-        // COMPLETAR
-        return null;
+        CtLiteral op = (CtLiteral) candidate;
+        return this.getClass().getSimpleName() + ": Se reemplazó " +
+                op.getValue().toString() + " por 1" +
+                " en la línea " + op.getPosition().getLine() + ".";
     }
 }

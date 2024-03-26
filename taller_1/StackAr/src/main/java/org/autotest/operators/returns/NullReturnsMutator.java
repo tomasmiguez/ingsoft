@@ -16,18 +16,30 @@ import java.util.List;
 public class NullReturnsMutator extends MutationOperator {
     @Override
     public boolean isToBeProcessed(CtElement candidate) {
-        // COMPLETAR
-        return false;
+        if (!(candidate instanceof CtReturn)) {
+            return false;
+        }
+
+        CtReturn op = (CtReturn) candidate;
+        return getReturnedExpressionType(op).equals("java.lang.Object") && !op.getReturnedExpression().toString().equals("null");
     }
+
+
+    private static String getReturnedExpressionType(CtReturn op) {
+        return op.getReturnedExpression().getType().toString();
+    }
+
 
     @Override
     public void process(CtElement candidate) {
-        // COMPLETAR
+        CtReturn op = (CtReturn) candidate;
+        op.setReturnedExpression(op.getFactory().Code().createLiteral(null));
     }
 
     @Override
     public String describeMutation(CtElement candidate) {
-        // COMPLETAR
-        return null;
+        CtReturn op = (CtReturn) candidate;
+        return this.getClass().getSimpleName() + ": Se reemplazó " +
+                op.getReturnedExpression() + " por null en la línea " + op.getPosition().getLine() + ".";
     }
 }

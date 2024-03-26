@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StackArMutated1567.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">StackAr</a> &gt; <a href="index.source.html" class="el_package">org.autotest.mutants</a> &gt; <span class="el_source">StackArMutated1567.java</span></div><h1>StackArMutated1567.java</h1><pre class="source lang-java linenums">package org.autotest.mutants;
+
+/**
+ * TrueConditionalsMutator: Se reemplazó isEmpty() por true en la línea 54.
+ */
+public class StackArMutated1567 extends org.autotest.Stack {
+    private static final int DEFAULT_CAPACITY = 10;
+
+    private final java.lang.Object[] elems;
+
+<span class="fc" id="L11">    private int readIndex = -1;</span>
+
+    public StackArMutated1567() {
+<span class="fc" id="L14">        this(org.autotest.mutants.StackArMutated1567.DEFAULT_CAPACITY);</span>
+<span class="fc" id="L15">    }</span>
+
+<span class="fc" id="L17">    public StackArMutated1567(int capacity) throws java.lang.IllegalArgumentException {</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if (capacity &lt; 0) {</span>
+<span class="fc" id="L19">            throw new java.lang.IllegalArgumentException();</span>
+        }
+<span class="fc" id="L21">        this.elems = new java.lang.Object[capacity];</span>
+<span class="fc" id="L22">    }</span>
+
+    public int size() {
+<span class="fc" id="L25">        return readIndex + 1;</span>
+    }
+
+    public boolean isEmpty() {
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        return size() == 0;</span>
+    }
+
+    public boolean isFull() {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        return size() == elems.length;</span>
+    }
+
+    public void push(java.lang.Object o) throws java.lang.IllegalStateException {
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (isFull()) {</span>
+<span class="nc" id="L38">            throw new java.lang.IllegalStateException();</span>
+        }
+<span class="fc" id="L40">        this.readIndex++;</span>
+<span class="fc" id="L41">        this.elems[readIndex] = o;</span>
+<span class="fc" id="L42">    }</span>
+
+    public java.lang.Object pop() throws java.lang.IllegalStateException {
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        if (isEmpty()) {</span>
+<span class="nc" id="L46">            throw new java.lang.IllegalStateException();</span>
+        }
+<span class="nc" id="L48">        java.lang.Object rv = this.top();</span>
+<span class="nc" id="L49">        readIndex--;</span>
+<span class="nc" id="L50">        return rv;</span>
+    }
+
+    public java.lang.Object top() throws java.lang.IllegalStateException {
+        if (true) {
+<span class="fc" id="L55">            throw new java.lang.IllegalStateException();</span>
+        }
+        java.lang.Object rv = this.elems[readIndex];
+        return rv;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+<span class="nc" id="L63">        final int prime = 31;</span>
+<span class="nc" id="L64">        int result = 1;</span>
+<span class="nc" id="L65">        result = (prime * result) + java.util.Arrays.hashCode(elems);</span>
+<span class="nc" id="L66">        result = (prime * result) + readIndex;</span>
+<span class="nc" id="L67">        return result;</span>
+    }
+
+    @java.lang.Override
+    public boolean equals(java.lang.Object obj) {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (this == obj) {</span>
+<span class="nc" id="L73">            return true;</span>
+        }
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L76">            return false;</span>
+        }
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L79">            return false;</span>
+        }
+<span class="nc" id="L81">        org.autotest.mutants.StackArMutated1567 other = ((org.autotest.mutants.StackArMutated1567) (obj));</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (!java.util.Arrays.equals(elems, other.elems)) {</span>
+<span class="nc" id="L83">            return false;</span>
+        }
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (readIndex != other.readIndex) {</span>
+<span class="nc" id="L86">            return false;</span>
+        }
+<span class="nc" id="L88">        return true;</span>
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+<span class="nc" id="L93">        java.lang.StringBuffer b = new java.lang.StringBuffer();</span>
+<span class="nc" id="L94">        b.append(&quot;[&quot;);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        for (int i = 0; i &lt;= readIndex; i++) {</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            if (i &gt; 0) {</span>
+<span class="nc" id="L97">                b.append(&quot;,&quot;);</span>
+            }
+<span class="nc" id="L99">            java.lang.Object o = elems[i];</span>
+<span class="nc" id="L100">            java.lang.String s = java.lang.String.valueOf(o);</span>
+<span class="nc" id="L101">            b.append(s);</span>
+        }
+<span class="nc" id="L103">        b.append(&quot;]&quot;);</span>
+<span class="nc" id="L104">        return b.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Main.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">StackAr</a> &gt; <a href="index.source.html" class="el_package">org.autotest</a> &gt; <span class="el_source">Main.java</span></div><h1>Main.java</h1><pre class="source lang-java linenums">package org.autotest;
+
+import org.autotest.operators.MutationOperator;
+import org.reflections.Reflections;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Clase principal del programa.
+ */
+<span class="nc" id="L13">public class Main {</span>
+
+    /**
+     * Punto de entrada del programa.
+     */
+    public static void main(String[] args) {
+        try {
+            // Ruta del archivo Java a mutar.
+<span class="nc" id="L21">            String targetJavaFile = &quot;src/main/java/org/autotest/StackAr.java&quot;;</span>
+
+            // Buscamos todos los operadores de mutación que están disponibles.
+<span class="nc" id="L24">            List&lt;MutationOperator&gt; operators = getOperators();</span>
+
+            // Corremos el generador de mutantes.
+<span class="nc" id="L27">            MutantsGenerator generator = new MutantsGenerator(targetJavaFile, operators);</span>
+<span class="nc" id="L28">            List&lt;Mutant&gt; mutants = generator.run();</span>
+
+            // Escribimos los mutantes generados a disco.
+<span class="nc" id="L31">            Mutant.cleanMutantsInFolder(&quot;src/main/java/&quot;);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            for (Mutant mutant : mutants) {</span>
+<span class="nc" id="L33">                mutant.writeToFolder(&quot;src/main/java/&quot;);</span>
+<span class="nc" id="L34">            }</span>
+<span class="nc" id="L35">        } catch (Exception e) {</span>
+<span class="nc" id="L36">            System.out.println(&quot;Ocurrió una excepción en Main: &quot; + e.getMessage());</span>
+<span class="nc" id="L37">            e.printStackTrace();</span>
+<span class="nc" id="L38">        }</span>
+<span class="nc" id="L39">    }</span>
+
+    /**
+     * Busca todos los operadores de mutación disponibles en el paquete org.autotest.operators.
+     */
+    public static List&lt;MutationOperator&gt; getOperators() {
+<span class="nc" id="L45">        Reflections reflections = new Reflections(&quot;org.autotest.operators&quot;);</span>
+<span class="nc" id="L46">        Set&lt;Class&lt;? extends MutationOperator&gt;&gt; mutationOperatorClasses = reflections.getSubTypesOf(MutationOperator.class);</span>
+
+<span class="nc" id="L48">        List&lt;MutationOperator&gt; mutators = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (Class&lt;? extends MutationOperator&gt; op : mutationOperatorClasses) {</span>
+            try {
+<span class="nc" id="L51">                mutators.add(op.newInstance());</span>
+<span class="nc" id="L52">            } catch (InstantiationException | IllegalAccessException e) {</span>
+<span class="nc" id="L53">                System.out.println(&quot;No se pudo instanciar el operador de mutación con clase: &quot; + op.getName());</span>
+<span class="nc" id="L54">                e.printStackTrace();</span>
+<span class="nc" id="L55">            }</span>
+<span class="nc" id="L56">        }</span>
+<span class="nc" id="L57">        return mutators;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
