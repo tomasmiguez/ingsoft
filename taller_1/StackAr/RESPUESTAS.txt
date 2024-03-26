@@ -1,0 +1,36 @@
+1.a) 66
+b) FalseConditionalsMutator y TrueConditionalsMutator con 10 porque son los que tienen
+mas nodos aceptados en el AST de la clase.
+c) NullReturnsMutator con 2 porque porque los nodos del AST que son aceptados y
+que encima no devuelven null son muy pocos.
+
+2.a y b)
+ - 1: 50 vivos y 16 muertos y 24%
+ - 2: 33 vivos y 33 muertos y 50%
+
+3)
+a) 84%
+b) 56 muertos y 10 vivos
+c)
+La mutación 9991 puede ser matada consiguiendo dos stacks cuyo array
+subyacente tenga un hash lo suficientemente cercano para que la división de lo
+mismo luego de ser casteada a int. Esto requiere mucha investigación sobre el
+algoritmo de hasheo para vectores propio de Java. De casualidad le pegamos a uno
+que cumple esta propiedad. Otra opción sería hardcodear un hashcode pero eso es
+un test mucho mas frágil.
+2507: Reemplazar un primo por otro es equivalente.
+1536: Cambiar una suma por una resta preserva equivalencia en los enteros.
+599: Nunca se alcanza esta linea porque la condición anterior subsume a esta.
+8558: Aunque no checkees igualdad de punteros, todas las otras cosas implican
+esta.
+6178: Aunque mutes el condicional del pop, la siguiente linea a ejecutarse dentro del
+top es la misma
+4100: No sumar un primo no cambia nada ya que los hashcodes de array ya de por si
+preservan equivalencia.
+4394: Nunca se alcanza esta linea porque la condición anterior subsume a esta.
+1026: Reemplazar un primo por otro es equivalente.
+5266: Cambiar una suma por una resta preserva equivalencia en los enteros.
+267: Dividir o multiplicar por 1 es equivalente.
+d) 63%
+e) El 2319 que crea siempre con una capacidad inválida por defecto. Y no se
+llega a ejecutar nada mas. Similar al 7344.
