@@ -2,3 +2,7 @@
     a- Genero 810 tests.
     b- Ningun test falla.
     c- El coverage es de instrucciones es de 83%.
+
+2-
+    a- Fallaron 384 de 3405. Fallan porque al hacer pop el elemento popeado no se
+    cambia a null en `elems` y eso rompe el invariante de representacion propuesto.
