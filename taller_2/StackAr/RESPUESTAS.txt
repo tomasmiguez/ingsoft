@@ -1,0 +1,4 @@
+1-
+    a- Genero 810 tests.
+    b- Ningun test falla.
+    c- El coverage es de instrucciones es de 83%.
