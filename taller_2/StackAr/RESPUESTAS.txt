@@ -6,3 +6,4 @@
 2-
     a- Fallaron 384 de 3405. Fallan porque al hacer pop el elemento popeado no se
     cambia a null en `elems` y eso rompe el invariante de representacion propuesto.
+    c- La ultima suite de tests alcanzo un cubrimiento de instrucciones del 66%.
