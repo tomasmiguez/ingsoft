@@ -7,3 +7,14 @@
     a- Fallaron 384 de 3405. Fallan porque al hacer pop el elemento popeado no se
     cambia a null en `elems` y eso rompe el invariante de representacion propuesto.
     c- La ultima suite de tests alcanzo un cubrimiento de instrucciones del 66%.
+
+3-
+    a- Genera 59 mutantes. Los tests matan 30 mutantes asi que es score es de 51%.
+    b- El mejor mutation score que pudimos alcanzar es de 56%. Los mutantes vivos que
+    quedaron son los que cambian la primera multiplicacion del metodo `hash` por una
+    division (este caso es equivalente ya que 31 * 1 == 31 / 1), y los que cambian las
+    sumas de ese mismo metodo por restas. Estos podriamos matarlos escribiendo un test
+    que pida que el hash siempre sea un numero positivo y hasheando un stack lo suficientemente
+    complejo como para que la resta de negativo, pero esto implica agregar a nuestra
+    suite de test un test que expone mucha informacion sobre la implementacion interna
+    del metodo `hash` (no es relevante que el hash sea negativo verdaderamente).
