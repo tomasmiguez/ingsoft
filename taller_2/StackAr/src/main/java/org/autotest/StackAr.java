@@ -35,7 +35,9 @@ public class StackAr {
 	@CheckRep
 	public boolean repOK() {
 		try {
-			// COMPLETAR
+			if (!repElemsNotNull()) return false;
+			if (!repIndexInRange()) return false;
+			if (!repNoElemOutOfRange()) return false;
 
 			return true;
 		} catch (Exception | Error e) {
@@ -43,6 +45,22 @@ public class StackAr {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	private boolean repElemsNotNull() {
+		return elems != null;
+	}
+
+	private boolean repIndexInRange() {
+		return -1 <= readIndex && readIndex < elems.length;
+	}
+
+	private boolean repNoElemOutOfRange() {
+		for (int i = readIndex+1; i < elems.length; i++) {
+			if (elems[i] != null) return false;
+		}
+
+		return true;
 	}
 
 	public int size() {
@@ -70,6 +88,7 @@ public class StackAr {
 			throw new IllegalStateException();
 		}
 		Object rv = this.top();
+		elems[readIndex] = null;
 		readIndex--;
 		return rv;
 	}
