@@ -19,6 +19,10 @@
     a2 = 4.0
     a3 = 1.0
 
+5-
+    b- 100%, hay al menos un test que entra a cada if, y hay uno que no cumple 
+    ninguna condición.
+
 6-
     b- 100%, cualquiera de los tests cubre ambas branches del condicional del loop y
     hay al menos 1 test en la que cada branch del if interno se cubre.
