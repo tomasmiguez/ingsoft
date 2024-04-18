@@ -37,3 +37,7 @@ replay_pid*
 # Ignore Mac system files
 .DS_Store
 tmp/
+
+venv
+env
+__pycache__
