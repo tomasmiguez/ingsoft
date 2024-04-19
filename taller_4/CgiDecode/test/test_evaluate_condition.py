@@ -180,7 +180,7 @@ class TestEvaluateCondition(unittest.TestCase):
             exp_false=0,
             exp_return=False,
         )
-    
+
     def testGreaterFalse(self):
         self.assertExpectedDistances(
             condition_num=16,
@@ -191,7 +191,7 @@ class TestEvaluateCondition(unittest.TestCase):
             exp_false=0,
             exp_return=False,
         )
-    
+
     def testGreaterTrue(self):
         self.assertExpectedDistances(
             condition_num=17,
@@ -202,7 +202,7 @@ class TestEvaluateCondition(unittest.TestCase):
             exp_false=10,
             exp_return=True,
         )
-    
+
     def testGreaterEqualFalse(self):
         self.assertExpectedDistances(
             condition_num=18,
@@ -213,7 +213,7 @@ class TestEvaluateCondition(unittest.TestCase):
             exp_false=0,
             exp_return=False,
         )
-    
+
     def testGreaterEqualTrue(self):
         self.assertExpectedDistances(
             condition_num=19,
@@ -224,7 +224,7 @@ class TestEvaluateCondition(unittest.TestCase):
             exp_false=11,
             exp_return=True,
         )
-    
+
     def testGreaterEqualEqual(self):
         self.assertExpectedDistances(
             condition_num=20,
@@ -246,6 +246,28 @@ class TestEvaluateCondition(unittest.TestCase):
             exp_false=1,
             exp_return=True,
         )
-    
+
+    def testCharListInTrue(self):
+        self.assertExpectedDistances(
+            condition_num=22,
+            op="In",
+            lhs="A",
+            rhs=["A", "B"],
+            exp_true=0,
+            exp_false=1,
+            exp_return=True,
+        )
+
+    def testCharDictInTrue(self):
+        self.assertExpectedDistances(
+            condition_num=22,
+            op="In",
+            lhs="A",
+            rhs={"A": 1, "B": 2},
+            exp_true=0,
+            exp_false=1,
+            exp_return=True,
+        )
+
     def testNotImplementedOperator(self):
         self.assertRaises(NotImplementedError, evaluate_condition, 21, "XX", 10, 20)

@@ -58,6 +58,10 @@ def evaluate_condition(condition_num, op, lhs, rhs):
         lhs = ord(lhs)
     if type(rhs) == str:
         rhs = ord(rhs)
+    elif type(rhs) == list and all(type(el) == str for el in rhs):
+        rhs = [ord(el) for el in rhs]
+    elif type(rhs) == dict and all(type(key) == str for key in rhs):
+        rhs = {ord(key): el for key, el in rhs.items()}
     if op == "Eq":
         d_true = abs(lhs - rhs)
         d_false = 0 if lhs != rhs else K
