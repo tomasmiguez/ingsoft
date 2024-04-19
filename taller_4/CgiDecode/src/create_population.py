@@ -1,23 +1,21 @@
-from random import choice
+from random import choice, randint
 from string import printable
 
 
 def get_random_character():
-    # TODO: COMPLETAR
-    return ""
+    return choice(printable)
 
 
 def create_test_case():
-    # TODO: COMPLETAR
-    return ""
+    test_case = ""
+    for _ in range(randint(0, 10)):
+        test_case += get_random_character()
+    return test_case
 
 
 def create_individual():
-    # TODO: COMPLETAR
-    return []
+    return [create_test_case() for _ in range(randint(1, 15))]
 
 
 def create_population(population_size):
-    population = []
-    # TODO: COMPLETAR
-    return population
+    return [create_individual() for _ in range(population_size)]
