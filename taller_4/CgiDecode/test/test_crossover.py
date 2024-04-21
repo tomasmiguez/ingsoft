@@ -1,16 +1,25 @@
 #!./venv/bin/python
 import unittest
 
-from random import seed
-from src.create_population import create_population
 from src.crossover import crossover
 
+class TestCrossover(unittest.TestCase):
+    def testWithEqualParents(self):
+        result = crossover(("foo", "bar"), ("baz", "bam"))
 
-# class TestCrossover(unittest.TestCase):
-#     def testExample(self):
-#         # COMPLETAR
-#         population = create_population(2)
-#         crossover(population[0], population[1])
-#         self.assertTrue(True)
-#         self.assertFalse(False)
-#         self.assertEqual(True, False)
+        possible_results = [
+            (("foo", "bar"), ("baz", "bam")),
+            (("foo", "bam"), ("baz", "bar")),
+        ]
+
+        self.assertIn(result, possible_results)
+
+    def testWithLongerParent(self):
+        result = crossover(("foo",), ("baz", "bam"))
+
+        possible_results = [
+            (("foo",), ("baz", "bam")),
+            (("foo", "bam"), ("baz",)),
+        ]
+
+        self.assertIn(result, possible_results)
