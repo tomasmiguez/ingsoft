@@ -14,7 +14,7 @@ def create_test_case():
 
 
 def create_individual():
-    return (create_test_case() for _ in range(randint(1, 15)))
+    return tuple(create_test_case() for _ in range(randint(1, 15)))
 
 
 def create_population(population_size):
