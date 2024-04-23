@@ -2,6 +2,8 @@ from src.cgi_decode_instrumented import cgi_decode_instrumented
 from src.evaluate_condition import clear_maps, get_false_distance, get_true_distance
 
 def get_fitness_cgi_decode(test_suite):
+    clear_maps()
+
     CONDS_NUM = 5
 
     best_true_dists = [1 for _ in range(CONDS_NUM)]
