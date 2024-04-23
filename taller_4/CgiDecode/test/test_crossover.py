@@ -3,6 +3,7 @@ import unittest
 
 from src.crossover import crossover
 
+
 class TestCrossover(unittest.TestCase):
     def testWithEqualParents(self):
         result = crossover(("foo", "bar"), ("baz", "bam"))
