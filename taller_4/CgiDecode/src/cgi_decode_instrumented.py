@@ -17,15 +17,15 @@ def cgi_decode_instrumented(s):
 
     t = ""
     i = 0
-    while evaluate_condition(1, "Lt", i, len(s)):  # c1
+    while evaluate_condition(0, "Lt", i, len(s)):  # c1
         c = s[i]
-        if evaluate_condition(2, "Eq", c, "+"):  # c2
+        if evaluate_condition(1, "Eq", c, "+"):  # c2
             t += " "
-        elif evaluate_condition(3, "Eq", c, "%"):  # c3
+        elif evaluate_condition(2, "Eq", c, "%"):  # c3
             digit_high, digit_low = s[i + 1], s[i + 2]
             i += 2
-            if evaluate_condition(4, "In", digit_high, hex_values):  # c4
-                if evaluate_condition(5, "In", digit_low, hex_values):  # c5
+            if evaluate_condition(3, "In", digit_high, hex_values):  # c4
+                if evaluate_condition(4, "In", digit_low, hex_values):  # c5
                     v = hex_values[digit_high] * 16 + hex_values[digit_low]
                     t += chr(v)
                 else:

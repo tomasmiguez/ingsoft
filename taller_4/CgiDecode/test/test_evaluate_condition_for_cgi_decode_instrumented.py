@@ -24,33 +24,33 @@ class TestEvaluateConditionForCgiDecodeInstrumented(unittest.TestCase):
 
     def testEmptyString(self):
         self.assertExpectedResultAndDistances(
-            input="", exp_true_map={1: 1}, exp_false_map={1: 0}
+            input="", exp_true_map={0: 1}, exp_false_map={0: 0}
         )
 
     def testSpaces(self):
         self.assertExpectedResultAndDistances(
             input="Hello+World",
-            exp_true_map={1: 0, 2: 0, 3: 35},
-            exp_false_map={1: 0, 2: 0, 3: 0},
+            exp_true_map={0: 0, 1: 0, 2: 35},
+            exp_false_map={0: 0, 1: 0, 2: 0},
         )
 
     def testHexValues(self):
         self.assertExpectedResultAndDistances(
             input="%0e",
-            exp_true_map={1: 0, 2: 6, 3: 0, 4: 0, 5: 0},
-            exp_false_map={1: 0, 2: 0, 3: 1, 4: 1, 5: 1},
+            exp_true_map={0: 0, 1: 6, 2: 0, 3: 0, 4: 0},
+            exp_false_map={0: 0, 1: 0, 2: 1, 3: 1, 4: 1},
         )
 
     def testWrongFirstDigit(self):
         self.assertRaisesAndExpectedDistances(
             input="%g0",
-            exp_true_map={1: 0, 2: 6, 3: 0, 4: 1},
-            exp_false_map={1: 3, 2: 0, 3: 1, 4: 0},
+            exp_true_map={0: 0, 1: 6, 2: 0, 3: 1},
+            exp_false_map={0: 3, 1: 0, 2: 1, 3: 0},
         )
 
     def testWrongSecondDigit(self):
         self.assertRaisesAndExpectedDistances(
             input="%0g",
-            exp_true_map={1: 0, 2: 6, 3: 0, 4: 0, 5: 1},
-            exp_false_map={1: 3, 2: 0, 3: 1, 4: 1, 5: 0},
+            exp_true_map={0: 0, 1: 6, 2: 0, 3: 0, 4: 1},
+            exp_false_map={0: 3, 1: 0, 2: 1, 3: 1, 4: 0},
         )
