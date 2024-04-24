@@ -5,12 +5,12 @@ from random import seed
 from src.genetic_algorithm import GeneticAlgorithm
 
 
-# class TestGeneticAlgorithm(unittest.TestCase):
-#     def test1(self):
-#         # COMPLETAR
-#         seed(1)
-#         ga = GeneticAlgorithm()
-#         result = ga.run()
+class TestGeneticAlgorithm(unittest.TestCase):
+    def test1(self):
+        # COMPLETAR
+        seed(1)
+        ga = GeneticAlgorithm()
+        result = ga.run()
 #         self.assertEqual(True, False)
 
 #     def test2(self):
