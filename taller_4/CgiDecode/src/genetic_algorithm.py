@@ -4,8 +4,10 @@ from src.crossover import crossover
 from src.evaluate_population import evaluate_population
 from src.mutate import mutate
 from src.selection import selection
+from src.get_fitness_cgi_decode import get_fitness_cgi_decode
 
-class GeneticAlgorithm():
+
+class GeneticAlgorithm:
     def __init__(self):
         self.population_size = 100
         self.tournament_size = 5
@@ -18,39 +20,52 @@ class GeneticAlgorithm():
 
     def get_best_individual(self):
         return self.best_individual
-    
+
     def get_fitness_best_individual(self):
         return self.fitness_best_individual
-    
+
     def get_generation(self):
         return self.generation
-        
+
     def run(self):
         # Generar y evaluar la poblacion inicial
-        population = None # COMPLETAR
-        fitness_by_individual = None # COMPLETAR
+        population = create_population(self.population_size)
+        fitness_by_individual = evaluate_population(population)
 
         # Imprimir el mejor valor de fitness encontrado
-        self.best_individual = None # COMPLETAR
-        self.fitness_best_individual = None # COMPLETAR
+        self.best_individual = min(fitness_by_individual, key=fitness_by_individual.get)
+        self.fitness_best_individual = fitness_by_individual[self.best_individual]
+        print(
+            f"Generation {self.generation:4} | Fitness {round(self.fitness_best_individual,2):4}: {self.best_individual}"
+        )
 
         # Continuar mientras la cantidad de generaciones es menor que 1000
         # y no haya ningun individuo que cubra todos los objetivos
 
-        while True: # COMPLETAR
+        while self.generation < 1000 and self.fitness_best_individual != 0:
+            if random() < self.p_crossover:
+                parent1 = selection(fitness_by_individual, self.tournament_size)
+                parent2 = selection(fitness_by_individual, self.tournament_size)
+                index_parent1 = population.index(parent1)
+                index_parent2 = population.index(parent2)
+                child1, child2 = crossover(parent1, parent2)
+                if random() < self.p_mutation:
+                    child1 = mutate(child1)
+                    child2 = mutate(child2)
+                population[index_parent1] = child1
+                population[index_parent2] = child2
 
-            # Producir una nueva poblacion en base a la anterior.
-            # Usar selection, crossover y mutation.
-            new_population = None # COMPLETAR
-
-            # Una vez creada, reemplazar la poblacion anterior con la nueva
             self.generation += 1
-            population = new_population
 
             # Evaluar la nueva poblacion e imprimir el mejor valor de fitness
-            fitness_by_individual = None # COMPLETAR
-            self.best_individual = None # COMPLETAR
-            self.fitness_best_individual = None # COMPLETAR
+            fitness_by_individual = evaluate_population(population)
+            self.best_individual = min(
+                fitness_by_individual, key=fitness_by_individual.get
+            )
+            self.fitness_best_individual = fitness_by_individual[self.best_individual]
+            print(
+                f"Generation {self.generation:4} | Fitness {round(self.fitness_best_individual, 2):4}: {self.best_individual}"
+            )
 
         # retornar el mejor individuo de la ultima generacion
         return self.best_individual

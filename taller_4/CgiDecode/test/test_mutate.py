@@ -6,11 +6,12 @@ from src.create_population import create_population
 from src.mutate import mutate
 
 
-# class TestMutate(unittest.TestCase):
-#     def testExample(self):
-#         # COMPLETAR
-#         population = create_population(1)
-#         mutate(population[0])
-#         self.assertTrue(True)
-#         self.assertFalse(False)
-#         self.assertEqual(True, False)
+class TestMutate(unittest.TestCase):
+    def testOneMutation(self):
+        population = create_population(1)
+        individual = population[0]
+        mutated_individual = mutate(individual)
+        difference = set(individual) - set(mutated_individual)
+
+        self.assertAlmostEqual(len(individual), len(mutated_individual), delta=1)
+        self.assertTrue(len(difference) <= 1)
