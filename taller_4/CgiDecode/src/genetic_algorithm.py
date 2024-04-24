@@ -1,9 +1,10 @@
-from random import random, seed
+from random import random
 from src.create_population import create_population
 from src.crossover import crossover
 from src.evaluate_population import evaluate_population
 from src.mutate import mutate
 from src.selection import selection
+from src.get_fitness_cgi_decode import get_fitness_cgi_decode
 
 
 class GeneticAlgorithm:
@@ -41,7 +42,7 @@ class GeneticAlgorithm:
         # Continuar mientras la cantidad de generaciones es menor que 1000
         # y no haya ningun individuo que cubra todos los objetivos
 
-        while self.generation < 2000 and self.fitness_best_individual != 0:
+        while self.generation < 1000 and self.fitness_best_individual != 0:
             if random() < self.p_crossover:
                 parent1 = selection(fitness_by_individual, self.tournament_size)
                 parent2 = selection(fitness_by_individual, self.tournament_size)
@@ -63,7 +64,7 @@ class GeneticAlgorithm:
             )
             self.fitness_best_individual = fitness_by_individual[self.best_individual]
             print(
-                f"Generation {self.generation:3} | Fitness {round(self.fitness_best_individual,2):4}: {self.best_individual}"
+                f"Generation {self.generation:4} | Fitness {round(self.fitness_best_individual, 2):4}: {self.best_individual}"
             )
 
         # retornar el mejor individuo de la ultima generacion
