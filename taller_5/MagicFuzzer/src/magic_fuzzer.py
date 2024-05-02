@@ -50,11 +50,15 @@ class MagicFuzzer:
 
         for input in inputs:
             runner.run(input)
+
             previous_coverage = len(self.covered_locations)
+
             new_covered_locations = set(
                 filter(lambda x: x[0] == self.function_name_to_call, runner.coverage())
-            )
+            ) if self.function_name_to_call is not None else runner.coverage()
+
             self.covered_locations = self.covered_locations.union(new_covered_locations)
+
             if len(self.covered_locations) > previous_coverage:
                 self.contributing_inputs[input] = new_covered_locations
 
@@ -85,8 +89,14 @@ class MagicFuzzer:
 
         return iterations
 
-    def run_iterations(self, n: int) -> None:
+    def run_iterations(self, n: int) -> int:
         """
         Corre una campaña del MagicFuzzer por n iteraciones.
         """
-        pass
+        iterations = 0
+
+        while iterations < n:
+            self.fuzz()
+            iterations += 1
+
+        return len(self.covered_locations)
