@@ -4,7 +4,6 @@ from src.crossover import crossover
 from src.evaluate_population import evaluate_population
 from src.mutate import mutate
 from src.selection import selection
-from src.get_fitness_cgi_decode import get_fitness_cgi_decode
 
 
 class GeneticAlgorithm:
@@ -27,7 +26,7 @@ class GeneticAlgorithm:
     def get_generation(self):
         return self.generation
 
-    def run(self):
+    def run(self, log=False):
         # Generar y evaluar la poblacion inicial
         population = create_population(self.population_size)
         fitness_by_individual = evaluate_population(population)
@@ -35,14 +34,16 @@ class GeneticAlgorithm:
         # Imprimir el mejor valor de fitness encontrado
         self.best_individual = min(fitness_by_individual, key=fitness_by_individual.get)
         self.fitness_best_individual = fitness_by_individual[self.best_individual]
-        print(
-            f"Generation {self.generation:4} | Fitness {round(self.fitness_best_individual,2):4}: {self.best_individual}"
-        )
 
-        # Continuar mientras la cantidad de generaciones es menor que 1000
+        if log:
+            print(
+                f"Generation {self.generation:4} | Fitness {round(self.fitness_best_individual,2):4}: {self.best_individual}"
+            )
+
+        # Continuar mientras la cantidad de generaciones es menor que 500
         # y no haya ningun individuo que cubra todos los objetivos
 
-        while self.generation < 1000 and self.fitness_best_individual != 0:
+        while self.generation < 500 and self.fitness_best_individual != 0:
             if random() < self.p_crossover:
                 parent1 = selection(fitness_by_individual, self.tournament_size)
                 parent2 = selection(fitness_by_individual, self.tournament_size)
@@ -63,9 +64,11 @@ class GeneticAlgorithm:
                 fitness_by_individual, key=fitness_by_individual.get
             )
             self.fitness_best_individual = fitness_by_individual[self.best_individual]
-            print(
-                f"Generation {self.generation:4} | Fitness {round(self.fitness_best_individual, 2):4}: {self.best_individual}"
-            )
+
+            if log:
+                print(
+                    f"Generation {self.generation:4} | Fitness {round(self.fitness_best_individual, 2):4}: {self.best_individual}"
+                )
 
         # retornar el mejor individuo de la ultima generacion
         return self.best_individual

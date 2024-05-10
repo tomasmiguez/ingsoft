@@ -10,9 +10,6 @@ def get_fitness_cgi_decode(test_suite, coverage=False):
     best_true_dists = [1 for _ in range(CONDS_NUM)]
     best_false_dists = [1 for _ in range(CONDS_NUM)]
 
-    true_coverage = [0 for _ in range(CONDS_NUM)]
-    false_coverage = [0 for _ in range(CONDS_NUM)]
-
     for test_case in test_suite:
         try:
             cgi_decode_instrumented(test_case)
@@ -32,12 +29,10 @@ def get_fitness_cgi_decode(test_suite, coverage=False):
             if normalized_dist < best_false_dists[cond_num]:
                 best_false_dists[cond_num] = normalized_dist
 
-        if coverage:
-            if true_dist == 0:
-                true_coverage[cond_num] = 1
-            if false_dist == 0:
-                false_coverage[cond_num] = 1
-
     if coverage:
-        return (sum(true_coverage) + sum(false_coverage)) / (CONDS_NUM * 2)
+        return (
+            sum(1 for dist in best_true_dists if dist == 0)
+            + sum(1 for dist in best_false_dists if dist == 0)
+        ) / (CONDS_NUM * 2)
+
     return sum(best_true_dists) + sum(best_false_dists)

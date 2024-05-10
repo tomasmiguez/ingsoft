@@ -35,23 +35,23 @@ class TestGeneticAlgorithm(unittest.TestCase):
         result = ga.run()
         coverage = get_fitness_cgi_decode(result, coverage=True)
         self.assertEqual(coverage, 0.8)
-        self.assertEqual(ga.get_generation(), 1000)
+        self.assertEqual(ga.get_generation(), 500)
         self.assertEqual(
             result,
             (
-                ">",
-                "}EB",
-                "y&shtp",
-                "\n.T",
-                "`I",
-                "MB\x0b!&r",
-                "w0#P^&",
+                "jJ-_.Wb\tT_",
+                "W",
+                "~vty_\\r*c1",
+                "J9",
+                'EBm=W-+"D%',
+                "}:",
+                "8",
                 "\x0cTj?I%9A",
                 "K",
-                "oe;+7k",
-                "uW` y",
-                "JN",
-                "U7@?W",
+                "po&r4#?",
+                "N",
+                "\nE^vos%}",
+                "OX[>B_ij{",
             ),
         )
 
