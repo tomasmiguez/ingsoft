@@ -1,0 +1,79 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+plugins {
+    id 'java'
+}
+
+group 'inge2.dc.uba.ar'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.soot-oss:soot:4.4.1'
+    implementation 'org.slf4j:slf4j-simple:2.0.7'
+}
+
+task soot(type: JavaExec, dependsOn: jar) {
+    group = "verification"
+    description = "Runs Soot on Foo class."
+
+    main = "soot.Main"
+    classpath = sourceSets.main.runtimeClasspath
+
+    // The soot task expects a "targetClass" argument
+    // E.g., -PtargetClass=com.example.Foo
+    def targetClass = ""
+    if (project.hasProperty('targetClass')) {
+        targetClass = project.property('targetClass').toString()
+    }
+
+    // The soot task expects an "analysis" argument
+    // E.g., -Panalysis=jap.lvtagger
+    def analysis = ""
+    if (project.hasProperty('analysis')) {
+        analysis = project.property('analysis').toString()
+    }
+
+    // Check that we are using Java 8
+    def javaVersion = JavaVersion.current()
+    assert javaVersion == JavaVersion.VERSION_1_8
+
+    // Get path to RT jar
+    // This should be something like "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar" on Linux
+    def jreRtPath = System.getProperty("java.home") + "/lib/rt.jar"
+    def jarPath = projectDir.absolutePath + "/build/libs/Dataflow-1.0-SNAPSHOT.jar"
+
+    def sootClassPath = jarPath + ":" + jreRtPath
+
+    // Use ";" instead of ":" for the sootClassPath if we are running on Windows
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        sootClassPath = jarPath + ";" + jreRtPath
+    }
+
+    args(targetClass)
+    args('-cp', sootClassPath)
+    args('-f', 'J')
+    args('-print-tags')
+    args('-p', analysis, 'enabled:true')
+    args('-p', 'jb', 'use-original-names:true')
+    args('-p', 'jb.cp', 'off')
+    args('-keep-line-number')
+
+    doFirst {
+        if (targetClass == "") {
+            println("WARNING: No targetClass specified. " +
+                    "Please specify a targetClass using the -PtargetClass argument. " +
+                    "For example: -PtargetClass=com.example.Foo")
+        } else if (analysis == "") {
+            println("No analysis specified. " +
+                    "Please specify a analysis using the -Panalysis argument. " +
+                    "For example: -Panalysis=jap.rdtagger")
+        } else {
+            println("Ejecutando " + analysis + " en la clase " + targetClass)
+            println("ClassPath para Soot: " + sootClassPath)
+        }
+    }
+}
