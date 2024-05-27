@@ -1,0 +1,86 @@
+public class com.example.Foo extends java.lang.Object
+{
+/*Foo.java*/
+
+/*2*/
+    public void <init>()
+    {
+        com.example.Foo this;
+
+        this := @this: com.example.Foo;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+/*3*/
+/*this has reaching def: this := @this: com.example.Foo*/
+
+        return;
+/*3*/
+    }
+
+/*4*/
+    public static void main(java.lang.String[])
+    {
+        java.io.PrintStream $stack5;
+        int $stack4;
+        java.lang.String[] args;
+        com.example.Foo $stack3;
+
+        args := @parameter0: java.lang.String[];
+
+        $stack3 = new com.example.Foo;
+/*5*/
+
+        specialinvoke $stack3.<com.example.Foo: void <init>()>();
+/*5*/
+/*$stack3 has reaching def: $stack3 = new com.example.Foo*/
+
+        $stack4 = virtualinvoke $stack3.<com.example.Foo: int bar(int)>(0);
+/*6*/
+/*$stack3 has reaching def: $stack3 = new com.example.Foo*/
+
+        $stack5 = <java.lang.System: java.io.PrintStream out>;
+/*7*/
+
+        virtualinvoke $stack5.<java.io.PrintStream: void println(int)>($stack4);
+/*7*/
+/*$stack5 has reaching def: $stack5 = <java.lang.System: java.io.PrintStream out>*/
+/*$stack4 has reaching def: $stack4 = virtualinvoke $stack3.<com.example.Foo: int bar(int)>(0)*/
+
+        return;
+/*8*/
+    }
+
+/*[x]*/
+/*11*/
+    public int bar(int)
+    {
+        int x, c;
+        com.example.Foo this;
+
+        this := @this: com.example.Foo;
+
+        x := @parameter0: int;
+
+        if x != 0 goto label1;
+/*12*/
+/*x has reaching def: x := @parameter0: int*/
+
+        c = x;
+/*13*/
+/*x has reaching def: x := @parameter0: int*/
+
+        goto label2;
+/*13*/
+
+     label1:
+        c = x + 1;
+/*15*/
+/*x has reaching def: x := @parameter0: int*/
+
+     label2:
+        return c;
+/*17*/
+/*c has reaching def: c = x*/
+/*c has reaching def: c = x + 1*/
+    }
+}

@@ -1,0 +1,87 @@
+public class com.example.ReachingDefinitionsExample extends java.lang.Object
+{
+/*ReachingDefinitionsExample.java*/
+
+/*3*/
+    void <init>()
+    {
+        com.example.ReachingDefinitionsExample this;
+
+        this := @this: com.example.ReachingDefinitionsExample;
+
+        specialinvoke this.<java.lang.Object: void <init>()>();
+/*4*/
+/*this has reaching def: this := @this: com.example.ReachingDefinitionsExample*/
+
+        return;
+/*4*/
+    }
+
+/*[args]*/
+/*6*/
+    int doSomething(java.lang.String[])
+    {
+        byte a, a#1_2;
+        int len, c, a#8;
+        java.lang.String[] args;
+        com.example.ReachingDefinitionsExample this;
+
+        this := @this: com.example.ReachingDefinitionsExample;
+
+        args := @parameter0: java.lang.String[];
+
+        a = 8;
+/*7*/
+
+        a#1_2 = 8;
+
+        a = 8;
+
+        len = lengthof args;
+/*8*/
+/*args has reaching def: args := @parameter0: java.lang.String[]*/
+
+        if len <= 2 goto label1;
+/*9*/
+/*len has reaching def: len = lengthof args*/
+
+        a = 5;
+/*10*/
+
+        a#1_2 = 5;
+
+        a = 5;
+
+     label1:
+        c = 1;
+/*12*/
+
+     label2:
+        if c > a#1_2 goto label3;
+/*13*/
+/*c has reaching def: c = 1*/
+/*c has reaching def: c = c + 2*/
+/*a#1_2 has reaching def: a#1_2 = 8*/
+/*a#1_2 has reaching def: a#1_2 = 5*/
+
+        c = c + 2;
+/*14*/
+/*c has reaching def: c = 1*/
+/*c has reaching def: c = c + 2*/
+
+        goto label2;
+/*14*/
+
+     label3:
+        a#8 = c - a;
+/*16*/
+/*c has reaching def: c = 1*/
+/*c has reaching def: c = c + 2*/
+/*a has reaching def: a = 8*/
+/*a has reaching def: a = 5*/
+
+        return a#8;
+/*17*/
+/*a#8 has reaching def: a#8 = c - a*/
+    }
+}
