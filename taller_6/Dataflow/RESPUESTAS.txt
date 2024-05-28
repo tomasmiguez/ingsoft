@@ -1,0 +1,15 @@
+1) Para responder esta pregunta ejecutamos el comando
+
+```bash
+./gradlew soot -PtargetClass=com.example.Foo -Panalysis=jap.rdtagger
+```
+
+obteniendo como resultado el archivo `sootOutput/com.example.Foo.jimple`.
+
+a) En dicho archivo se puede ver que las reaching definitions de `return c;` son
+las 2 ramas del condicional previo. Esto es razonable, ya que el estado de c se
+ve alterado en ambas, y no hay ninguna otra asignacion anterior al return.
+
+b) Por otro lado, las reaching definitions de `System.out.println(rv);` son la
+asignacion a `rv` en la linea anterior, y la instanciacion de `System.out` de la
+misma linea, que fue pusheada en el stack y accedida de forma consecutiva.
