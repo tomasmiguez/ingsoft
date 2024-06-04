@@ -1,0 +1,99 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+plugins {
+    id 'java'
+}
+
+group 'inge2.dc.uba.ar'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    implementation 'org.soot-oss:soot:4.4.1'
+    implementation 'org.slf4j:slf4j-simple:2.0.7'
+}
+
+test {
+    useJUnitPlatform()
+
+    dependsOn("jar")
+
+    // Check that we are using Java 8
+    def javaVersion = JavaVersion.current()
+    assert javaVersion == JavaVersion.VERSION_1_8
+
+    // Get path to RT jar
+    // This should be something like "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar" on Linux
+    def jreRtPath = System.getProperty("java.home") + "/lib/rt.jar"
+    def jarPath = projectDir.absolutePath + "/build/libs/Dataflow-1.0-SNAPSHOT.jar"
+
+    def sootClassPath = jarPath + ":" + jreRtPath
+
+    // Use ";" instead of ":" for the sootClassPath if we are running on Windows
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        sootClassPath = jarPath + ";" + jreRtPath
+    }
+
+    systemProperty 'sootClassPath', sootClassPath
+}
+
+task zeroAnalysis(type: JavaExec, dependsOn: jar) {
+    group = "verification"
+    description = "Runs Division by zero analysis on a target class."
+
+    main = "inge2.dataflow.Launcher"
+    classpath = sourceSets.main.runtimeClasspath
+
+    // The soot task expects a "targetClass" argument
+    // E.g., -PtargetClass=com.example.Foo
+    def targetClass = ""
+    if (project.hasProperty('targetClass')) {
+        targetClass = project.property('targetClass').toString()
+    }
+
+    // Check that we are using Java 8
+    def javaVersion = JavaVersion.current()
+    assert javaVersion == JavaVersion.VERSION_1_8
+
+    // Get path to RT jar
+    // This should be something like "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar" on Linux
+    def jreRtPath = System.getProperty("java.home") + "/lib/rt.jar"
+    def jarPath = projectDir.absolutePath + "/build/libs/Dataflow-1.0-SNAPSHOT.jar"
+
+    def sootClassPath = jarPath + ":" + jreRtPath
+
+    // Use ";" instead of ":" for the sootClassPath if we are running on Windows
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        sootClassPath = jarPath + ";" + jreRtPath
+    }
+
+    args(targetClass)
+    args('-cp', sootClassPath)
+    args("-f", "J")
+    args("-v")
+    args("-print-tags")
+    args("-p", "jtp.DivisionByZeroAnalysis", "on")
+    args("-p", "jb", "use-original-names:true")
+    args("-p", "jb.ls", "off")
+    args("-p", "jb.sils", "off")
+    args("-p", "jb.a", "off")
+    args("-p", "jb.ule", "off")
+    args("-p", "jb.cp", "off")
+    args("-keep-line-number")
+
+    doFirst {
+        if (targetClass == "") {
+            println("WARNING: No targetClass specified. " +
+                    "Please specify a targetClass using the -PtargetClass argument. " +
+                    "For example: -PtargetClass=com.example.Foo")
+        } else {
+            println("Ejecutando DivisionByZeroAnalysis en la clase " + targetClass)
+            println("ClassPath para Soot: " + sootClassPath)
+        }
+    }
+}
