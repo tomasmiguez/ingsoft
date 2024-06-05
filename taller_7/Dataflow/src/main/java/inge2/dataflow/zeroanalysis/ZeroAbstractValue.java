@@ -45,8 +45,32 @@ public enum ZeroAbstractValue {
      * @return the result of the addition.
      */
     public ZeroAbstractValue add(ZeroAbstractValue another) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException();
+        switch (this) {
+            case BOTTOM:
+                return BOTTOM;
+            case ZERO:
+                return another;
+            case NOT_ZERO:
+                switch (another) {
+                    case BOTTOM:
+                        return BOTTOM;
+                    case ZERO:
+                        return NOT_ZERO;
+                    case NOT_ZERO:
+                    case MAYBE_ZERO:
+                        return MAYBE_ZERO;
+                }
+            case MAYBE_ZERO:
+                switch (another) {
+                    case BOTTOM:
+                        return BOTTOM;
+                    case NOT_ZERO:
+                    case ZERO:
+                    case MAYBE_ZERO:
+                        return MAYBE_ZERO;
+                }
+        }
+        throw new IllegalStateException("Unexpected value: " + this);
     }
 
     /**
