@@ -61,8 +61,22 @@ public class ZeroAbstractSet {
      * @return the union of this set with another set.
      */
     public ZeroAbstractSet union(ZeroAbstractSet another) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException();
+        ZeroAbstractSet result = new ZeroAbstractSet();
+
+        this.getDefinedVariables().forEach((variable) -> {
+            ZeroAbstractValue thisValue = this.getValue(variable);
+            ZeroAbstractValue anotherValue = another.getValue(variable);
+
+            if (thisValue != null && anotherValue == null) {
+                result.setValue(variable, thisValue);
+            } else if (thisValue == null && anotherValue != null) {
+                result.setValue(variable, anotherValue);
+            } else {
+                result.setValue(variable, thisValue.merge(anotherValue));
+            }
+        });
+
+        return result;
     }
 
     /**
