@@ -100,8 +100,11 @@ public class ZeroValueVisitor extends AbstractValueVisitor<ZeroAbstractValue> {
      */
     @Override
     public void visitIntegerConstant(int value) {
-        // TODO: IMPLEMENTAR.
-        throw new UnsupportedOperationException();
+        if (value == 0) {
+            resolvedValue = ZeroAbstractValue.ZERO;
+        } else {
+            resolvedValue = ZeroAbstractValue.NOT_ZERO;
+        }
     }
 
     /**
