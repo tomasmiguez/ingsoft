@@ -59,8 +59,7 @@ public class ZeroValueVisitor extends AbstractValueVisitor<ZeroAbstractValue> {
      */
     @Override
     public void visitDivExpression(ZeroAbstractValue leftOperand, ZeroAbstractValue rightOperand) {
-        // TODO: IMPLEMENTAR.
-        throw new UnsupportedOperationException();
+        resolvedValue = leftOperand.divideBy(rightOperand);
     }
 
     /**
