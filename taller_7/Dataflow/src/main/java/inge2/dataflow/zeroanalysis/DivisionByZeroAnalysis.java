@@ -72,6 +72,7 @@ public class DivisionByZeroAnalysis extends ForwardFlowAnalysis<Unit, ZeroAbstra
      */
     @Override
     protected void merge(ZeroAbstractSet input1, ZeroAbstractSet input2, ZeroAbstractSet output) {
+        // El output es la union de los dos inputs
         output.putAll(input1.union(input2));
     }
 

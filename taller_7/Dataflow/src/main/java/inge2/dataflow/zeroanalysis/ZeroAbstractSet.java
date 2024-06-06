@@ -66,7 +66,7 @@ public class ZeroAbstractSet {
         this.getDefinedVariables().forEach((variable) -> {
             ZeroAbstractValue thisValue = this.getValue(variable);
             ZeroAbstractValue anotherValue = another.getValue(variable);
-
+            // Si ambos estan definidos, se hace el merge de los sets
             if (thisValue != null && anotherValue == null) {
                 result.setValue(variable, thisValue);
             } else if (thisValue == null && anotherValue != null) {

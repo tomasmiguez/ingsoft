@@ -45,6 +45,7 @@ public enum ZeroAbstractValue {
      * @return the result of the addition.
      */
     public ZeroAbstractValue add(ZeroAbstractValue another) {
+        // Implmentado en base a la tabla de la parte 1
         switch (this) {
             case BOTTOM:
                 return BOTTOM;
@@ -79,6 +80,7 @@ public enum ZeroAbstractValue {
      * @return the result of the division.
      */
     public ZeroAbstractValue divideBy(ZeroAbstractValue another) {
+        // Implmentado en base a la tabla de la parte 1
         switch (this) {
             case BOTTOM:
                 return BOTTOM;
@@ -119,6 +121,7 @@ public enum ZeroAbstractValue {
      * @return the result of the multiplication.
      */
     public ZeroAbstractValue multiplyBy(ZeroAbstractValue another) {
+        // Implmentado en base a la tabla de la parte 1
         switch (this) {
             case BOTTOM:
                 if (another == ZERO) {
@@ -144,6 +147,7 @@ public enum ZeroAbstractValue {
      * @return the result of the subtraction.
      */
     public ZeroAbstractValue subtract(ZeroAbstractValue another) {
+        // Implmentado en base a la tabla de la parte 1 (es igual a la suma)
         return this.add(another);
     }
 

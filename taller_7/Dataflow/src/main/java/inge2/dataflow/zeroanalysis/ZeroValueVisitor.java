@@ -59,6 +59,7 @@ public class ZeroValueVisitor extends AbstractValueVisitor<ZeroAbstractValue> {
      */
     @Override
     public void visitDivExpression(ZeroAbstractValue leftOperand, ZeroAbstractValue rightOperand) {
+        // En caso de que el divisor sea Z o MZ, se activa possibleDivisionByZero.
         if (rightOperand == ZeroAbstractValue.ZERO || rightOperand == ZeroAbstractValue.MAYBE_ZERO) {
             possibleDivisionByZero = true;
         }
@@ -102,6 +103,7 @@ public class ZeroValueVisitor extends AbstractValueVisitor<ZeroAbstractValue> {
      */
     @Override
     public void visitIntegerConstant(int value) {
+        // Resolvemos los valores Z y NZ en base al valor de la constante.
         if (value == 0) {
             resolvedValue = ZeroAbstractValue.ZERO;
         } else {
