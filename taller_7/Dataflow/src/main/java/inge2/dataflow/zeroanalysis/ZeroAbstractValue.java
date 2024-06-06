@@ -108,8 +108,23 @@ public enum ZeroAbstractValue {
      * @return the result of the merge.
      */
     public ZeroAbstractValue merge(ZeroAbstractValue another) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException();
+        if (this == BOTTOM) {
+            return another;
+        }
+
+        if (another == BOTTOM) {
+            return this;
+        }
+
+        if (this == MAYBE_ZERO || another == MAYBE_ZERO) {
+            return MAYBE_ZERO;
+        }
+
+        if (this == another) {
+            return this;
+        }
+
+        return MAYBE_ZERO;
     }
 
 }
