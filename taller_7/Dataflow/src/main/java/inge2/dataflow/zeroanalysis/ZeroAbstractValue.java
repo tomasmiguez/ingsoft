@@ -99,8 +99,7 @@ public enum ZeroAbstractValue {
      * @return the result of the subtraction.
      */
     public ZeroAbstractValue subtract(ZeroAbstractValue another) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException();
+        return this.add(another);
     }
 
     /**
