@@ -79,8 +79,38 @@ public enum ZeroAbstractValue {
      * @return the result of the division.
      */
     public ZeroAbstractValue divideBy(ZeroAbstractValue another) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException();
+        switch (this) {
+            case BOTTOM:
+                return BOTTOM;
+            case ZERO:
+                switch (another) {
+                    case BOTTOM:
+                    case ZERO:
+                        return BOTTOM;
+                    case NOT_ZERO:
+                    case MAYBE_ZERO:
+                        return ZERO;
+                }
+            case NOT_ZERO:
+                switch (another) {
+                    case BOTTOM:
+                    case ZERO:
+                        return BOTTOM;
+                    case NOT_ZERO:
+                    case MAYBE_ZERO:
+                        return NOT_ZERO;
+                }
+            case MAYBE_ZERO:
+                switch (another) {
+                    case BOTTOM:
+                    case ZERO:
+                        return BOTTOM;
+                    case NOT_ZERO:
+                    case MAYBE_ZERO:
+                        return MAYBE_ZERO;
+                }
+        }
+        throw new IllegalStateException("Unexpected value: " + this);
     }
 
     /**
@@ -89,8 +119,23 @@ public enum ZeroAbstractValue {
      * @return the result of the multiplication.
      */
     public ZeroAbstractValue multiplyBy(ZeroAbstractValue another) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException();
+        switch (this) {
+            case BOTTOM:
+                if (another == ZERO) {
+                    return ZERO;
+                }
+                return BOTTOM;
+            case ZERO:
+                return ZERO;
+            case NOT_ZERO:
+                return another;
+            case MAYBE_ZERO:
+                if (another == NOT_ZERO) {
+                    return MAYBE_ZERO;
+                }
+                return another;
+        }
+        throw new IllegalStateException("Unexpected value: " + this);
     }
 
     /**
