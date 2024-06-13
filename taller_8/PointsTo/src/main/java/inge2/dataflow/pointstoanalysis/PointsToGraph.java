@@ -58,8 +58,7 @@ public class PointsToGraph {
      * @return
      */
     public Set<String> getNodesForVariable(String variableName) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        return mapping.get(variableName);
     }
 
     /**
@@ -68,8 +67,7 @@ public class PointsToGraph {
      * @param nodes
      */
     public void setNodesForVariable(String variableName, Set<String> nodes) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        mapping.put(variableName, nodes);
     }
 
     /**
@@ -79,8 +77,7 @@ public class PointsToGraph {
      * @param rightNode
      */
     public void addEdge(String leftNode, String fieldName, String rightNode) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        axis.add(new Axis(leftNode, fieldName, rightNode));
     }
 
     /**
@@ -90,8 +87,15 @@ public class PointsToGraph {
      * @return
      */
     public Set<String> getReachableNodesByField(String node, String fieldName) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        Set<String> matchingObjects = new HashSet<>();
+
+        for (Axis edge : axis) {
+            if (edge.leftNode.equals(node) && edge.fieldName.equals(fieldName)) {
+                matchingObjects.add(edge.rightNode);
+            }
+        }
+
+        return matchingObjects;
     }
 
     /**
@@ -109,8 +113,9 @@ public class PointsToGraph {
      * @param in el grafo a unir
      */
     public void union(PointsToGraph in) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        nodes.addAll(in.nodes);
+        axis.addAll(in.axis);
+        mapping.putAll(in.mapping);
     }
 
     /**
@@ -118,7 +123,6 @@ public class PointsToGraph {
      * @param dst el grafo destino.
      */
     private void putAll(PointsToGraph dst) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        dst.union(this);
     }
 }
