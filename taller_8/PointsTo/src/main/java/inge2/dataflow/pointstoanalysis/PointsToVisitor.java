@@ -4,6 +4,12 @@ import soot.jimple.*;
 import soot.jimple.internal.JInstanceFieldRef;
 import soot.jimple.internal.JimpleLocal;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class PointsToVisitor extends AbstractStmtSwitch<Void> {
 
     private final PointsToGraph pointsToGraph;
@@ -37,16 +43,20 @@ public class PointsToVisitor extends AbstractStmtSwitch<Void> {
         String leftVariableName = stmt.getLeftOp().toString();
         String nodeName = pointsToGraph.getNodeName(stmt);
 
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        Set<String> nodeSet = new HashSet<String>();
+        nodeSet.add(nodeName);
+
+        pointsToGraph.setNodesForVariable(leftVariableName, nodeSet);
     }
 
     private void processAssignLocalToLocal(AssignStmt stmt) {
         String leftVariableName = stmt.getLeftOp().toString();
         String rightVariableName = stmt.getRightOp().toString();
 
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        pointsToGraph.setNodesForVariable(
+                leftVariableName,
+                pointsToGraph.getNodesForVariable(rightVariableName)
+        );
     }
 
     private void processAssignLocalToField(AssignStmt stmt) {
@@ -65,7 +75,14 @@ public class PointsToVisitor extends AbstractStmtSwitch<Void> {
         String rightVariableName = rightFieldRef.getBase().toString();
         String fieldName = rightFieldRef.getField().getName();
 
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        Set<String> nodesReachableFromRightVarField = pointsToGraph.getNodesForVariable(rightVariableName)
+                .stream()
+                .flatMap((node) -> pointsToGraph.getReachableNodesByField(node, fieldName).stream())
+                .collect(Collectors.toSet());
+
+        pointsToGraph.setNodesForVariable(
+                leftVariableName,
+                nodesReachableFromRightVarField
+        );
     }
 }
