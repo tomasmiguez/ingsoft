@@ -6,6 +6,7 @@ import soot.toolkits.scalar.ForwardFlowAnalysis;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PointsToAnalysis extends ForwardFlowAnalysis<Unit, PointsToGraph> {
 
@@ -65,8 +66,13 @@ public class PointsToAnalysis extends ForwardFlowAnalysis<Unit, PointsToGraph> {
      * @return
      */
     public boolean mayAlias(String leftVariableName, String rightVariableName) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        Set<String> leftVariableNodes = getLastPointsToGraph().getNodesForVariable(leftVariableName);
+        Set<String> rightVariableNodes = getLastPointsToGraph().getNodesForVariable(rightVariableName);
+
+        Set<String> intersection = new HashSet<String>(leftVariableNodes);
+        intersection.retainAll(rightVariableNodes);
+
+        return !intersection.isEmpty();
     }
 
     /**
@@ -77,7 +83,16 @@ public class PointsToAnalysis extends ForwardFlowAnalysis<Unit, PointsToGraph> {
      * @return
      */
     public boolean mayAlias(String leftVariableName, String fieldName, String rightVariableName) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        Set<String> leftVariableNodes = getLastPointsToGraph().getNodesForVariable(leftVariableName);
+        Set<String> rightVariableNodes = getLastPointsToGraph().getNodesForVariable(rightVariableName);
+
+        Set<String> reachableFromLeftVariableNodeField = leftVariableNodes.stream()
+                .flatMap((node) -> getLastPointsToGraph().getReachableNodesByField(node, fieldName).stream())
+                .collect(Collectors.toSet());
+
+        Set<String> intersection = new HashSet<String>(rightVariableNodes);
+        intersection.retainAll(reachableFromLeftVariableNodeField);
+
+        return !intersection.isEmpty();
     }
 }
