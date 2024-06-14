@@ -65,8 +65,14 @@ public class PointsToVisitor extends AbstractStmtSwitch<Void> {
         String fieldName = leftFieldRef.getField().getName();
         String rightVariableName = stmt.getRightOp().toString();
 
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        Set<String> leftNodes = pointsToGraph.getNodesForVariable(leftVariableName);
+        Set<String> rightNodes = pointsToGraph.getNodesForVariable(rightVariableName);
+
+        for (String leftNode : leftNodes) {
+            for (String rightNode : rightNodes) {
+                pointsToGraph.addEdge(leftNode, fieldName, rightNode);
+            }
+        }
     }
 
     private void processAssignFieldToLocal(AssignStmt stmt) {
