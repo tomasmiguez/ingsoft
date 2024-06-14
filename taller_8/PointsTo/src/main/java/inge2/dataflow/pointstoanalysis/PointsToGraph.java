@@ -87,15 +87,15 @@ public class PointsToGraph {
      * @return
      */
     public Set<String> getReachableNodesByField(String node, String fieldName) {
-        Set<String> matchingObjects = new HashSet<>();
+        Set<String> matchingNodes = new HashSet<>();
 
         for (Axis edge : axis) {
             if (edge.leftNode.equals(node) && edge.fieldName.equals(fieldName)) {
-                matchingObjects.add(edge.rightNode);
+                matchingNodes.add(edge.rightNode);
             }
         }
 
-        return matchingObjects;
+        return matchingNodes;
     }
 
     /**
