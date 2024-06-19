@@ -10,11 +10,12 @@ public class BusquedaLineal {
     public static boolean busquedaLineal(int elem, int[] arr) {
         boolean result = false;
 
-        //@ maintaining 0 <= i <= arr.length;
-        //@ maintaining result <==> (\exists int j; 0 <= j < i; arr[j] == elem);
-        //@ decreases arr.length - i;
-        //@ loop_writes result;
-        //@ loop_writes i;
+        /*@ maintaining 0 <= i <= arr.length;
+            maintaining result <==> (\exists int j; 0 <= j < i; arr[j] == elem);
+            decreases arr.length - i;
+            loop_writes result;
+            loop_writes i;
+         @*/
         for (int i = 0; i < arr.length; i++) {
             if (elem == arr[i]) {
                 result = true;
