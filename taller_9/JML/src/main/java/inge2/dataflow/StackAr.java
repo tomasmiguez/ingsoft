@@ -24,44 +24,51 @@ public class StackAr {
 
     //@ TODO: ESPECIFICAR
     public StackAr(int capacity) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (capacity < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.elems = new int[capacity];
     }
 
     //@ TODO: ESPECIFICAR
     public boolean isEmpty() {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size() == 0;
     }
 
     //@ TODO: ESPECIFICAR
     public boolean isFull() {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size() == elems.length;
     }
 
     //@ TODO: ESPECIFICAR
     public int size() {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        return top + 1;
     }
 
     //@ TODO: ESPECIFICAR
     public void push(int o) {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (isFull()) {
+            throw new IllegalStateException();
+        }
+        this.top++;
+        this.elems[top] = o;
     }
 
     //@ TODO: ESPECIFICAR
     public int pop() {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (isEmpty()) {
+            throw new IllegalStateException();
+        }
+        top--;
+        return this.peek();
     }
 
     //@ TODO: ESPECIFICAR
     public int peek() {
-        // TODO: IMPLEMENTAR
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (isEmpty()) {
+            throw new IllegalStateException();
+        }
+        return this.elems[top];
     }
 }
 
