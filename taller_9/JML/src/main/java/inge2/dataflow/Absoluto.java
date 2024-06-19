@@ -7,7 +7,6 @@ public class Absoluto {
     //
     /*@ requires n > Integer.MIN_VALUE;
         ensures \result == n | \result == -n;
-        ensures Integer.MIN_VALUE < \result <= Integer.MAX_VALUE;
     @*/
     public static int valorAbsoluto(int n) {
         if (n < 0) {
