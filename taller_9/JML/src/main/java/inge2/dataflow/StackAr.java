@@ -20,57 +20,59 @@ public class StackAr {
     //@ spec_public
     private int top = -1;
 
+    //@ public invariant top < elems.length;
+    //@ public invariant top >= -1;
+
     //@ ensures elems.length == DEFAULT_CAPACITY;
     public StackAr() {
         this(DEFAULT_CAPACITY);
     }
 
     //@ requires capacity > 0;
+    //@ requires capacity < Integer.MAX_VALUE;
     //@ ensures elems.length == capacity;
     public StackAr(int capacity) {
         this.elems = new int[capacity];
     }
 
-    //@ requires -1 <= top < elems.length;
-    //@ ensures \result <==> top + 1 == 0;
+    //@ ensures \result <==> (size() == 0);
+    //@ pure
     public boolean isEmpty() {
         return size() == 0;
     }
 
-    //@ requires -1 <= top < elems.length;
-    //@ ensures \result <==> top + 1 == elems.length;
+    //@ ensures \result <==> (size() == elems.length);
+    //@ pure
     public boolean isFull() {
         return size() == elems.length;
     }
 
-    //@ requires -1 <= top < elems.length;
-    //@ ensures \result == top + 1;
+    //@ ensures \result == (top + 1);
+    //@ pure
     public int size() {
         return top + 1;
     }
 
-    //@ requires -1 <= top < elems.length - 1;
-    //@ ensures \old(top) + 1 == top;
-    //@ ensures elems[top] == o;
+    //@ requires top < elems.length - 1;
+    //@ ensures top == \old(top) + 1;
+    //@ ensures peek() == o;
     public void push(int o) {
         this.top++;
         this.elems[top] = o;
     }
 
-    //@ requires 0 <= top < elems.length;
-    //@ ensures \old(top) - 1 == top;
-    //@ ensures \result == elems[\old(top)];
+    //@ requires top >= 0;
+    //@ ensures top == \old(top) - 1;
+    //@ ensures \result == \old(peek());
     public int pop() {
-        //@ assert 0 <= top < elems.length;
-        int elem = this.peek();
+        int topValue = this.peek();
         top--;
-        //@ assert elem == elems[\old(top)];
-        //@ assert \old(top) - 1 == top;
-        return elem;
+        return topValue;
     }
 
-    //@ requires 0 <= top < elems.length;
+    //@ requires top >= 0;
     //@ ensures \result == elems[top];
+    //@ pure
     public int peek() {
         return this.elems[top];
     }
