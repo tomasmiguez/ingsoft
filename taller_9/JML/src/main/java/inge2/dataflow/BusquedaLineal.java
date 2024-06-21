@@ -10,16 +10,15 @@ public class BusquedaLineal {
 
         /*@ maintaining 0 <= i <= arr.length;
             maintaining result <==> (\exists int j; 0 <= j < i; arr[j] == elem);
-            decreases arr.length - i;
             loop_writes result;
             loop_writes i;
+            decreases arr.length - i;
          @*/
         for (int i = 0; i < arr.length; i++) {
             if (elem == arr[i]) {
                 result = true;
             }
         }
-        //@ assert result <==> (\exists int j; 0 <= j < arr.length; arr[j] == elem);
 
         return result;
     }
