@@ -5,69 +5,73 @@ public class StackAr {
     /**
      * Capacidad por defecto de la pila.
      */
+    //@ spec_public
     private final static int DEFAULT_CAPACITY = 10;
 
     /**
      * Arreglo que contiene los elementos de la pila.
      */
+    //@ spec_public
     private final int[] elems;
 
     /**
      * Indice del tope de la pila.
      */
+    //@ spec_public
     private int top = -1;
 
-    //@ TODO: ESPECIFICAR
+    //@ ensures elems.length == DEFAULT_CAPACITY;
     public StackAr() {
         this(DEFAULT_CAPACITY);
     }
 
-    //@ TODO: ESPECIFICAR
+    //@ requires capacity > 0;
+    //@ ensures elems.length == capacity;
     public StackAr(int capacity) {
-        if (capacity < 0) {
-            throw new IllegalArgumentException();
-        }
         this.elems = new int[capacity];
     }
 
-    //@ TODO: ESPECIFICAR
+    //@ requires -1 <= top < elems.length;
+    //@ ensures \result <==> top + 1 == 0;
     public boolean isEmpty() {
         return size() == 0;
     }
 
-    //@ TODO: ESPECIFICAR
+    //@ requires -1 <= top < elems.length;
+    //@ ensures \result <==> top + 1 == elems.length;
     public boolean isFull() {
         return size() == elems.length;
     }
 
-    //@ TODO: ESPECIFICAR
+    //@ requires -1 <= top < elems.length;
+    //@ ensures \result == top + 1;
     public int size() {
         return top + 1;
     }
 
-    //@ TODO: ESPECIFICAR
+    //@ requires -1 <= top < elems.length - 1;
+    //@ ensures \old(top) + 1 == top;
+    //@ ensures elems[top] == o;
     public void push(int o) {
-        if (isFull()) {
-            throw new IllegalStateException();
-        }
         this.top++;
         this.elems[top] = o;
     }
 
-    //@ TODO: ESPECIFICAR
+    //@ requires 0 <= top < elems.length;
+    //@ ensures \old(top) - 1 == top;
+    //@ ensures \result == elems[\old(top)];
     public int pop() {
-        if (isEmpty()) {
-            throw new IllegalStateException();
-        }
+        //@ assert 0 <= top < elems.length;
+        int elem = this.peek();
         top--;
-        return this.peek();
+        //@ assert elem == elems[\old(top)];
+        //@ assert \old(top) - 1 == top;
+        return elem;
     }
 
-    //@ TODO: ESPECIFICAR
+    //@ requires 0 <= top < elems.length;
+    //@ ensures \result == elems[top];
     public int peek() {
-        if (isEmpty()) {
-            throw new IllegalStateException();
-        }
         return this.elems[top];
     }
 }
